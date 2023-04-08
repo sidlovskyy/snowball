@@ -1,10 +1,12 @@
-// SPDX-License-Identifier: GPL-3.0
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 // Type imports
 import {Snowball} from "../SnowballTypes.sol";
 
     struct GameStorage {
+        address diamondAddress;
+
         string name;
         string symbol;
 
