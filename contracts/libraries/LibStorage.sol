@@ -1,21 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import {SVGStorage} from "./SVGStorage.sol";
 import {LibDiamond} from "../vendor/libraries/LibDiamond.sol";
 
 // Type imports
 import {Snowball, SvgLayer, Dimensions} from "../SnowballTypes.sol";
 
-struct ItemType {
-    string name; //The name of the item
-    string description;
-    string author;
-    // SVG x,y,width,height
-    Dimensions dimensions;
-    uint32 svgId; //The svgId of the item
-}
-
-struct GameStorage {
+    struct GameStorage {
     address diamondAddress;
 
     string name;
@@ -30,9 +22,7 @@ struct GameStorage {
     mapping(address => mapping(address => bool)) operators;
     mapping(uint256 => address) approved;
 
-    mapping(bytes32 => SvgLayer[]) svgLayers;
-
-    ItemType[] itemTypes;
+    mapping(uint256 => SVGStorage.SVG) svgs;
 }
 
 /**

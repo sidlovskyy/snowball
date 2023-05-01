@@ -5,6 +5,7 @@ struct Snowball {
     uint256 id;
     address owner;
     uint256 gen;
+    bytes svg;
 }
 
 struct SvgLayer {
