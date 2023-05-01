@@ -1,24 +1,39 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import {LibDiamond} from "../vendor/libraries/LibDiamond.sol";
+
 // Type imports
-import {Snowball} from "../SnowballTypes.sol";
+import {Snowball, SvgLayer, Dimensions} from "../SnowballTypes.sol";
 
-    struct GameStorage {
-        address diamondAddress;
+struct ItemType {
+    string name; //The name of the item
+    string description;
+    string author;
+    // SVG x,y,width,height
+    Dimensions dimensions;
+    uint32 svgId; //The svgId of the item
+}
 
-        string name;
-        string symbol;
+struct GameStorage {
+    address diamondAddress;
 
-        uint32[] tokenIds;
+    string name;
+    string symbol;
 
-        mapping(uint256 => Snowball) snowballs;
-        mapping(address => uint32[]) ownerTokenIds;
-        mapping(address => mapping(uint256 => uint256)) ownerTokenIdIndexes;
+    uint32[] tokenIds;
 
-        mapping(address => mapping(address => bool)) operators;
-        mapping(uint256 => address) approved;
-    }
+    mapping(uint256 => Snowball) snowballs;
+    mapping(address => uint32[]) ownerTokenIds;
+    mapping(address => mapping(uint256 => uint256)) ownerTokenIdIndexes;
+
+    mapping(address => mapping(address => bool)) operators;
+    mapping(uint256 => address) approved;
+
+    mapping(bytes32 => SvgLayer[]) svgLayers;
+
+    ItemType[] itemTypes;
+}
 
 /**
  * All of game storage is stored in a single GameStorage struct.
@@ -87,5 +102,12 @@ library LibStorage {
 contract WithStorage {
     function gs() internal pure returns (GameStorage storage) {
         return LibStorage.gameStorage();
+    }
+}
+
+contract Modifiers {
+    modifier onlyOwner {
+        LibDiamond.enforceIsContractOwner();
+        _;
     }
 }

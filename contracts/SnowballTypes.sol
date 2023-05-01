@@ -6,3 +6,16 @@ struct Snowball {
     address owner;
     uint256 gen;
 }
+
+struct SvgLayer {
+    address svgLayersContract;
+    uint16 offset;
+    uint16 size;
+}
+
+struct Dimensions {
+    uint8 x;
+    uint8 y;
+    uint8 width;
+    uint8 height;
+}
