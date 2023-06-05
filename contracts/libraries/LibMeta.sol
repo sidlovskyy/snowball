@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 library LibMeta {
-    function msgSender() internal view returns (address _sender) {
-        _sender = msg.sender;
+    function msgSender() internal view returns (address sender_) {
+        sender_ = msg.sender;
     }
 }

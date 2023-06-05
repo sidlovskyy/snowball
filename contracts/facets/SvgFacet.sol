@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {SVGStorage} from "../libraries/SVGStorage.sol";
+import {SvgStorage} from "../libraries/SvgStorage.sol";
 import {SvgLayer} from "../libraries/LibStorage.sol";
 import {Modifiers, WithStorage} from "../libraries/LibStorage.sol";
 import {LibSvg} from "../libraries/LibSvg.sol";
@@ -12,6 +12,10 @@ contract SvgFacet is WithStorage, Modifiers {
     /***********************************|
    |             Read Functions         |
    |__________________________________*/
+
+    function svgExists(uint256 _tokenId) external view returns (bool exists_) {
+        exists_ = LibSvg.svgExists(_tokenId);
+    }
 
     function getSvg(uint256 _tokenId) external view returns (string memory svg_) {
         svg_ = string(LibSvg.getSvg(_tokenId));
@@ -29,7 +33,7 @@ contract SvgFacet is WithStorage, Modifiers {
    |             Write Functions        |
    |__________________________________*/
 
-    function storeSvgs(uint256[] calldata _tokenIds, SVGStorage.SVG[] calldata _svgs) external onlyOwner {
+    function storeSvgs(uint256[] calldata _tokenIds, SvgStorage.Svg[] calldata _svgs) external onlyOwner {
         require(_tokenIds.length == _svgs.length, "SvgFacet: _tokenIds length not the same as _svgs length");
 
         uint256 length = _tokenIds.length;

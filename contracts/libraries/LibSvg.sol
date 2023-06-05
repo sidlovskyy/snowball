@@ -1,20 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {SVGStorage} from "./SVGStorage.sol";
+import {SvgStorage} from "./SvgStorage.sol";
 import {SvgLayer} from "../SnowballTypes.sol";
 
 import {LibStorage, GameStorage} from "./LibStorage.sol";
 
 library LibSvg {
-    using SVGStorage for SVGStorage.SVG;
+    using SvgStorage for SvgStorage.Svg;
 
     function gs() internal pure returns (GameStorage storage) {
         return LibStorage.gameStorage();
     }
 
-    event StoreSvg(uint256 _tokenId);
-    event DeleteSvg(uint256 _tokenId);
+    event StoreSvg(uint256 tokenId);
+    event DeleteSvg(uint256 tokenId);
 
     struct SvgTypeAndSizes {
         bytes32 svgType;
@@ -27,13 +27,18 @@ library LibSvg {
         uint256[] sizes;
     }
 
-    function getSvg(uint256 _tokenId) internal view returns (string memory svg_) {
-        SVGStorage.SVG storage svg = gs().svgs[_tokenId];
-        svg_ = svg.getSVG();
+    function svgExists(uint256 _tokenId) internal view returns (bool exists_) {
+        SvgStorage.Svg storage svg = gs().svgs[_tokenId];
+        exists_ = svg.data.length > 0;
     }
 
-    function storeSvg(uint256 _tokenId, SVGStorage.SVG calldata _svg) internal {
-        gs().svgs[_tokenId].storeSVG(_svg.width, _svg.height, _svg.data);
+    function getSvg(uint256 _tokenId) internal view returns (string memory svg_) {
+        SvgStorage.Svg storage svg = gs().svgs[_tokenId];
+        svg_ = svg.getSvg();
+    }
+
+    function storeSvg(uint256 _tokenId, SvgStorage.Svg calldata _svg) internal {
+        gs().svgs[_tokenId].storeSvg(_svg.width, _svg.height, _svg.data);
         emit StoreSvg(_tokenId);
     }
 

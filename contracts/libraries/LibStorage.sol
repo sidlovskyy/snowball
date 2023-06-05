@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {SVGStorage} from "./SVGStorage.sol";
+import {SvgStorage} from "./SvgStorage.sol";
 import {LibDiamond} from "../vendor/libraries/LibDiamond.sol";
 
 // Type imports
@@ -22,7 +22,7 @@ import {Snowball, SvgLayer, Dimensions} from "../SnowballTypes.sol";
     mapping(address => mapping(address => bool)) operators;
     mapping(uint256 => address) approved;
 
-    mapping(uint256 => SVGStorage.SVG) svgs;
+    mapping(uint256 => SvgStorage.Svg) svgs;
 }
 
 /**
@@ -72,10 +72,10 @@ library LibStorage {
     // Storage are structs where the data gets updated throughout the lifespan of the game
     bytes32 constant GAME_STORAGE_POSITION = keccak256("snowball.storage.game");
 
-    function gameStorage() internal pure returns (GameStorage storage gs) {
+    function gameStorage() internal pure returns (GameStorage storage _gs) {
         bytes32 position = GAME_STORAGE_POSITION;
         assembly {
-            gs.slot := position
+            _gs.slot := position
         }
     }
 }

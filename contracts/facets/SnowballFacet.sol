@@ -11,54 +11,54 @@ import "../libraries/LibStrings.sol";
 
 contract SnowballFacet is WithStorage {
 
-    function totalSupply() external view returns (uint256 _totalSupply) {
-        _totalSupply = gs().tokenIds.length;
+    function totalSupply() external view returns (uint256 totalSupply_) {
+        totalSupply_ = gs().tokenIds.length;
     }
 
-    function balanceOf(address _owner) external view returns (uint256 _balance) {
+    function balanceOf(address _owner) external view returns (uint256 balance_) {
         require(_owner != address(0), "SnowballFacet: _owner can't be address(0)");
-        _balance = gs().ownerTokenIds[_owner].length;
+        balance_ = gs().ownerTokenIds[_owner].length;
     }
 
-    function tokenByIndex(uint256 _index) external view returns (uint256 _tokenId) {
+    function tokenByIndex(uint256 _index) external view returns (uint256 tokenId_) {
         require(_index < gs().tokenIds.length, "SnowballFacet: index beyond supply");
-        _tokenId = gs().tokenIds[_index];
+        tokenId_ = gs().tokenIds[_index];
     }
 
-    function tokenOfOwnerByIndex(address _owner, uint256 _index) external view returns (uint256 _tokenId) {
+    function tokenOfOwnerByIndex(address _owner, uint256 _index) external view returns (uint256 tokenId_) {
         require(_index < gs().ownerTokenIds[_owner].length, "SnowballFacet: index beyond owner balance");
-        _tokenId = gs().ownerTokenIds[_owner][_index];
+        tokenId_ = gs().ownerTokenIds[_owner][_index];
     }
 
-    function tokenIdsOfOwner(address _owner) external view returns (uint32[] memory _tokenIds) {
-        _tokenIds = gs().ownerTokenIds[_owner];
+    function tokenIdsOfOwner(address _owner) external view returns (uint32[] memory tokenIds_) {
+        tokenIds_ = gs().ownerTokenIds[_owner];
     }
 
     /// @notice Find the owner of an NFT
     /// @dev NFTs assigned to zero address are considered invalid, and queries
     ///  about them do throw.
     /// @param _tokenId The identifier for an NFT
-    /// @return _owner The address of the owner of the NFT
-    function ownerOf(uint256 _tokenId) external view returns (address _owner) {
-        _owner = gs().snowballs[_tokenId].owner;
-        require(_owner != address(0), "SnowballFacet: invalid _tokenId");
+    /// @return owner_ The address of the owner of the NFT
+    function ownerOf(uint256 _tokenId) external view returns (address owner_) {
+        owner_ = gs().snowballs[_tokenId].owner;
+        require(owner_ != address(0), "SnowballFacet: invalid _tokenId");
     }
 
     /// @notice Get the approved address for a single NFT
     /// @dev Throws if `_tokenId` is not a valid NFT.
     /// @param _tokenId The NFT to find the approved address for
-    /// @return _approved The approved address for this NFT, or the zero address if there is none
-    function getApproved(uint256 _tokenId) external view returns (address _approved) {
+    /// @return approved_ The approved address for this NFT, or the zero address if there is none
+    function getApproved(uint256 _tokenId) external view returns (address approved_) {
         require(_tokenId < gs().tokenIds.length, "ERC721: tokenId is invalid");
-        _approved = gs().approved[_tokenId];
+        approved_ = gs().approved[_tokenId];
     }
 
     /// @notice Query if an address is an authorized operator for another address
     /// @param _owner The address that owns the NFTs
     /// @param _operator The address that acts on behalf of the owner
-    /// @return _approved True if `_operator` is an approved operator for `_owner`, false otherwise
-    function isApprovedForAll(address _owner, address _operator) external view returns (bool _approved) {
-        _approved = gs().operators[_owner][_operator];
+    /// @return approved_ True if `_operator` is an approved operator for `_owner`, false otherwise
+    function isApprovedForAll(address _owner, address _operator) external view returns (bool approved_) {
+        approved_ = gs().operators[_owner][_operator];
     }
 
     /// @notice Transfers the ownership of an NFT from one address to another address
