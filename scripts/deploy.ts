@@ -190,12 +190,13 @@ export async function deploySnowballFacet(
   hre: HardhatRuntimeEnvironment
 ) {
   const factory = await hre.ethers.getContractFactory('SnowballFacet', {
-    libraries: {
-      LibStrings,
-      LibMeta,
-      LibERC721,
-      LibSnowball,
-    },
+    // TODO: Check this one
+    // libraries: {
+    //   LibStrings,
+    //   LibMeta,
+    //   LibERC721,
+    //   LibSnowball,
+    // },
   });
   const contract = await factory.deploy();
   await contract.deployTransaction.wait();
@@ -209,10 +210,11 @@ export async function deploySvgFacet(
   hre: HardhatRuntimeEnvironment
 ) {
   const factory = await hre.ethers.getContractFactory('SvgFacet', {
-    libraries: {
-      LibStrings,
-      LibSvg,
-    },
+    // TODO: Check this one
+    // libraries: {
+    //   LibStrings,
+    //   LibSvg,
+    // },
   });
   const contract = await factory.deploy();
   await contract.deployTransaction.wait();
@@ -234,23 +236,25 @@ export async function deployLibraries({}, hre: HardhatRuntimeEnvironment) {
   await LibMeta.deployTransaction.wait();
 
   const LibSnowballFactory = await hre.ethers.getContractFactory('LibSnowball', {
-    libraries: {
-      LibERC721: LibERC721.address,
-    },
+    // TODO: Check this one
+    // libraries: {
+    //   LibERC721: LibERC721.address,
+    // },
   });
   const LibSnowball = await LibSnowballFactory.deploy();
   await LibSnowball.deployTransaction.wait();
 
-  const LibSvgStorageFactory = await hre.ethers.getContractFactory('LibSvgStorageFactory');
+  const LibSvgStorageFactory = await hre.ethers.getContractFactory('LibSvgStorage');
   const LibSvgStorage = await LibSvgStorageFactory.deploy();
   await LibSvgStorage.deployTransaction.wait();
 
-  const LibSvgSFactory = await hre.ethers.getContractFactory('LibSvg', {
-    libraries: {
-      LibSvgStorage: LibSvgStorage.address,
-    },
+  const LibSvgFactory = await hre.ethers.getContractFactory('LibSvg', {
+    // TODO: Check this one
+    // libraries: {
+    //   LibSvgStorage: LibSvgStorage.address,
+    // },
   });
-  const LibSvg = await LibSvgSFactory.deploy();
+  const LibSvg = await LibSvgFactory.deploy();
   await LibSvg.deployTransaction.wait();
 
   return {

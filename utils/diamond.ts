@@ -17,6 +17,7 @@
  */
 
 import { Contract, utils } from 'ethers';
+import { JsonFragment } from '@ethersproject/abi';
 
 export const enum FacetCutAction {
   Add = 0,
@@ -72,6 +73,45 @@ interface Changeset {
 interface SelectorDiff {
   add: string[];
   replace: string[];
+}
+
+// Turns an abiElement into a signature string, like `"init(bytes4)"`
+export function toSignature(abiElement: unknown): string {
+  return utils.Fragment.fromObject(abiElement as JsonFragment).format();
+}
+
+const eventSignatures = new Set();
+
+export function isOverlappingEvent(abiElement: unknown): boolean {
+  const frag = utils.Fragment.fromObject(abiElement as JsonFragment);
+  if (frag.type === 'event') {
+    const signature = frag.format();
+    if (eventSignatures.has(signature)) {
+      return true;
+    } else {
+      eventSignatures.add(signature);
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
+const errorSignatures = new Set();
+
+export function isOverlappingError(abiElement: unknown): boolean {
+  const frag = utils.Fragment.fromObject(abiElement as JsonFragment);
+  if (frag.type === 'error') {
+    const signature = frag.format();
+    if (errorSignatures.has(signature)) {
+      return true;
+    } else {
+      errorSignatures.add(signature);
+      return false;
+    }
+  } else {
+    return false;
+  }
 }
 
 export class DiamondChanges {

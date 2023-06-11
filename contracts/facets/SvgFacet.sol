@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import {Dimensions} from "../SnowballTypes.sol";
 
-// Type import only
+// Type import
 import {LibSvgStorage} from "../libraries/LibSvgStorage.sol";
 
 // Library imports
