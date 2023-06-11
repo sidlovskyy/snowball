@@ -7,12 +7,13 @@ import {IERC165} from "./vendor/interfaces/IERC165.sol";
 import {IDiamondLoupe} from "./vendor/interfaces/IDiamondLoupe.sol";
 import {IERC173} from "./vendor/interfaces/IERC173.sol";
 
-import {WithStorage} from "./libraries/LibStorage.sol";
+import {WithStorage, GameStorage} from "./libraries/LibStorage.sol";
 
 contract SnowballInit is WithStorage {
     struct Args {
         string name;
         string symbol;
+        string baseURI;
     }
 
     function init(Args memory _args) external {
@@ -26,9 +27,12 @@ contract SnowballInit is WithStorage {
 
         // TODO: Add more support interfaces
 
-        gs().diamondAddress = address(this);
+        GameStorage storage store = gs();
 
-        gs().name = _args.name;
-        gs().symbol = _args.symbol;
+        store.diamondAddress = address(this);
+
+        store.name = _args.name;
+        store.symbol = _args.symbol;
+        store.baseURI = _args.baseURI;
     }
 }

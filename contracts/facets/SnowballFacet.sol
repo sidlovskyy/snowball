@@ -174,7 +174,8 @@ contract SnowballFacet is WithStorage {
     /// @dev Throws if `_tokenId` is not a valid NFT. URIs are defined in RFC
     ///  3986. The URI may point to a JSON file that conforms to the "ERC721
     ///  Metadata JSON Schema".
-    function tokenURI(uint256 _tokenId) external pure returns (string memory) {
-        return LibStrings.strWithUint("https://fireball.com/metadata/snowballs/", _tokenId); //Here is your URL!
+    function tokenURI(uint256 _tokenId) external view returns (string memory) {
+        // return LibStrings.strWithUint("https://fireball.com/metadata/snowballs/", _tokenId); //Here is your URL!
+        return LibStrings.strWithUint(gs().baseURI, _tokenId);
     }
 }

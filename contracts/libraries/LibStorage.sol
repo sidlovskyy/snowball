@@ -13,6 +13,8 @@ import {Snowball, SvgLayer, Dimensions} from "../SnowballTypes.sol";
     string name;
     string symbol;
 
+    string baseURI;
+
     uint32[] tokenIds;
 
     mapping(uint256 => Snowball) snowballs;
