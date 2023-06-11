@@ -8,9 +8,9 @@ import {LibERC721} from "../libraries/LibERC721.sol";
 import {LibSnowball} from "../libraries/LibSnowball.sol";
 
 // Storage imports
-import {LibStorage, WithStorage} from "../libraries/LibStorage.sol";
+import {LibStorage, WithStorage, Modifiers} from "../libraries/LibStorage.sol";
 
-contract SnowballFacet is WithStorage {
+contract SnowballFacet is WithStorage, Modifiers {
 
     function totalSupply() external view returns (uint256 totalSupply_) {
         totalSupply_ = gs().tokenIds.length;
@@ -158,6 +158,11 @@ contract SnowballFacet is WithStorage {
     function setApprovalForAll(address _operator, bool _approved) external {
         gs().operators[LibMeta.msgSender()][_operator] = _approved;
         emit LibERC721.ApprovalForAll(LibMeta.msgSender(), _operator, _approved);
+    }
+
+    function mint(address _to, uint256 _tokenId) external onlyOwner {
+        require(_to != address(0), "SnowballFacet: Can't mint to 0 address");
+        LibSnowball.mint(_to, _tokenId);
     }
 
     function name() external view returns (string memory) {

@@ -37,6 +37,10 @@ contract SvgFacet is WithStorage, Modifiers {
    |             Write Functions        |
    |__________________________________*/
 
+    function storeSvg(uint256 _tokenId, LibSvgStorage.Svg calldata _svg) external onlyOwner {
+        LibSvg.storeSvg(_tokenId, _svg);
+    }
+
     function storeSvgs(uint256[] calldata _tokenIds, LibSvgStorage.Svg[] calldata _svgs) external onlyOwner {
         require(_tokenIds.length == _svgs.length, "SvgFacet: _tokenIds length not the same as _svgs length");
 
@@ -44,6 +48,10 @@ contract SvgFacet is WithStorage, Modifiers {
         for (uint256 i; i < length; i++) {
             LibSvg.storeSvg(_tokenIds[i], _svgs[i]);
         }
+    }
+
+    function deleteSvg(uint256 _tokenId) external onlyOwner {
+        LibSvg.deleteSvg(_tokenId);
     }
 
     function deleteSvgs(uint256[] calldata _tokenIds) external onlyOwner {

@@ -38,4 +38,18 @@ library LibSnowball {
         s.ownerTokenIds[_to].push(uint32(_tokenId));
         emit LibERC721.Transfer(_from, _to, _tokenId);
     }
+
+    function mint(
+        address _to,
+        uint256 _tokenId
+    ) internal {
+        GameStorage storage s = gs();
+        require(s.snowballs[_tokenId].owner == address(0), "Snowball already exists");
+
+        // add
+        s.snowballs[_tokenId].owner = _to;
+        s.ownerTokenIdIndexes[_to][_tokenId] = s.ownerTokenIds[_to].length;
+        s.ownerTokenIds[_to].push(uint32(_tokenId));
+        emit LibERC721.Transfer(address(0), _to, _tokenId);
+    }
 }
