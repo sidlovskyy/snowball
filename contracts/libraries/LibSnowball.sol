@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+// Library imports
 import {LibERC721} from "./LibERC721.sol";
+
+// Storage imports
 import {GameStorage, LibStorage} from "./LibStorage.sol";
 
 library LibSnowball {

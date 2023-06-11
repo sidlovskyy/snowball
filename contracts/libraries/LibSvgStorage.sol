@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+// Library imports
 import {LibStrings} from "./LibStrings.sol";
 
-library SvgStorage {
+library LibSvgStorage {
     struct Svg {
         bytes data;
         uint16 width;

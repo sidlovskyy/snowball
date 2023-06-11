@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+// Library imports
 import {LibMeta} from "../libraries/LibMeta.sol";
 import {LibStrings} from "../libraries/LibStrings.sol";
 import {LibERC721} from "../libraries/LibERC721.sol";
 import {LibSnowball} from "../libraries/LibSnowball.sol";
 
+// Storage imports
 import {LibStorage, WithStorage} from "../libraries/LibStorage.sol";
-import "../libraries/LibStrings.sol";
 
 contract SnowballFacet is WithStorage {
 
@@ -175,7 +176,6 @@ contract SnowballFacet is WithStorage {
     ///  3986. The URI may point to a JSON file that conforms to the "ERC721
     ///  Metadata JSON Schema".
     function tokenURI(uint256 _tokenId) external view returns (string memory) {
-        // return LibStrings.strWithUint("https://fireball.com/metadata/snowballs/", _tokenId); //Here is your URL!
         return LibStrings.strWithUint(gs().baseURI, _tokenId);
     }
 }

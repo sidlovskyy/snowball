@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {SvgStorage} from "./SvgStorage.sol";
+import {LibSvgStorage} from "./LibSvgStorage.sol";
 import {LibDiamond} from "../vendor/libraries/LibDiamond.sol";
 
 // Type imports
@@ -24,7 +24,7 @@ import {Snowball, SvgLayer, Dimensions} from "../SnowballTypes.sol";
     mapping(address => mapping(address => bool)) operators;
     mapping(uint256 => address) approved;
 
-    mapping(uint256 => SvgStorage.Svg) svgs;
+    mapping(uint256 => LibSvgStorage.Svg) svgs;
 }
 
 /**
