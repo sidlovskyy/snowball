@@ -24,6 +24,8 @@ contract SnowballInit is WithStorage {
         ds.supportedInterfaces[type(IDiamondLoupe).interfaceId] = true;
         ds.supportedInterfaces[type(IERC173).interfaceId] = true;
 
+        // TODO: Add more support interfaces
+
         gs().diamondAddress = address(this);
 
         gs().name = _args.name;
