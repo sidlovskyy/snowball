@@ -166,13 +166,11 @@ contract SnowballFacet is WithStorage, Modifiers {
     }
 
     function name() external view returns (string memory) {
-        // return "Snowball";
         return gs().name;
     }
 
     /// @notice An abbreviated name for NFTs in this contract
     function symbol() external view returns (string memory) {
-        // return "SNOW";
         return gs().symbol;
     }
 

@@ -9,6 +9,10 @@ import {IERC173} from "./vendor/interfaces/IERC173.sol";
 
 import {WithStorage, GameStorage} from "./libraries/LibStorage.sol";
 
+import {IERC721} from "@solidstate/contracts/token/ERC721/IERC721.sol";
+import {IERC721Metadata} from "@solidstate/contracts/token/ERC721/metadata/IERC721Metadata.sol";
+import {IERC721Enumerable} from "@solidstate/contracts/token/ERC721/enumerable/IERC721Enumerable.sol";
+
 contract SnowballInit is WithStorage {
     struct Args {
         string name;
@@ -24,8 +28,9 @@ contract SnowballInit is WithStorage {
         ds.supportedInterfaces[type(IDiamondCut).interfaceId] = true;
         ds.supportedInterfaces[type(IDiamondLoupe).interfaceId] = true;
         ds.supportedInterfaces[type(IERC173).interfaceId] = true;
-
-        // TODO: Add more support interfaces
+        ds.supportedInterfaces[type(IERC721).interfaceId] = true;
+        ds.supportedInterfaces[type(IERC721Metadata).interfaceId] = true;
+        ds.supportedInterfaces[type(IERC721Enumerable).interfaceId] = true;
 
         GameStorage storage store = gs();
 
