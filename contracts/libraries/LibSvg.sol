@@ -30,22 +30,22 @@ library LibSvg {
         uint256[] sizes;
     }
 
-    function svgExists(uint256 _tokenId) internal view returns (bool exists_) {
+    function svgExists(uint256 _tokenId) public view returns (bool exists_) {
         LibSvgStorage.Svg storage svg = gs().svgs[_tokenId];
         exists_ = svg.data.length > 0;
     }
 
-    function getSvg(uint256 _tokenId) internal view returns (string memory svg_) {
+    function getSvg(uint256 _tokenId) public view returns (string memory svg_) {
         LibSvgStorage.Svg storage svg = gs().svgs[_tokenId];
         svg_ = svg.getSvg();
     }
 
-    function storeSvg(uint256 _tokenId, LibSvgStorage.Svg calldata _svg) internal {
+    function storeSvg(uint256 _tokenId, LibSvgStorage.Svg calldata _svg) public {
         gs().svgs[_tokenId].storeSvg(_svg.width, _svg.height, _svg.data);
         emit StoreSvg(_tokenId);
     }
 
-    function deleteSvg(uint256 _tokenId) internal {
+    function deleteSvg(uint256 _tokenId) public {
         delete gs().svgs[_tokenId];
         emit DeleteSvg(_tokenId);
     }

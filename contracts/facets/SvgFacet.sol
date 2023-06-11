@@ -7,7 +7,6 @@ import {Dimensions} from "../SnowballTypes.sol";
 import {LibSvgStorage} from "../libraries/LibSvgStorage.sol";
 
 // Library imports
-import {LibStrings} from "../libraries/LibStrings.sol";
 import {LibSvg} from "../libraries/LibSvg.sol";
 
 // Storage imports

@@ -21,6 +21,7 @@ async function deploy(
   // Is deployer of all contracts
   const [deployer] = await hre.ethers.getSigners();
 
+  // TODO: Amount here should be changed
   const requires = hre.ethers.utils.parseEther('2.1');
   const balance = await deployer.getBalance();
 
@@ -43,6 +44,9 @@ async function deploy(
     },
     hre
   );
+
+  console.log('Diamond address:', diamond.address);
+  console.log('Deployed successfully.');
 }
 
 export async function deployAndCut(
@@ -103,12 +107,6 @@ export async function deployAndCut(
   const toCut = [...diamondSpecFacetCuts, ...snowballFacetCuts];
 
   const diamondCut = await hre.ethers.getContractAt('DiamondCutFacet', diamond.address);
-
-  const tokenBaseUri = `${
-    isDev
-      ? 'https://nft-test.zkga.me/token-uri/artifact/'
-      : 'https://nft.zkga.me/token-uri/artifact/'
-  }${hre.network.config?.chainId || 'unknown'}-${diamond.address}/`;
 
   // EIP-2535 specifies that the `diamondCut` function takes two optional
   // arguments: address _init and bytes calldata _calldata
@@ -190,13 +188,10 @@ export async function deploySnowballFacet(
   hre: HardhatRuntimeEnvironment
 ) {
   const factory = await hre.ethers.getContractFactory('SnowballFacet', {
-    // TODO: Check this one
-    // libraries: {
-    //   LibStrings,
-    //   LibMeta,
-    //   LibERC721,
-    //   LibSnowball,
-    // },
+    libraries: {
+      LibStrings,
+      LibMeta,
+    },
   });
   const contract = await factory.deploy();
   await contract.deployTransaction.wait();
@@ -210,11 +205,9 @@ export async function deploySvgFacet(
   hre: HardhatRuntimeEnvironment
 ) {
   const factory = await hre.ethers.getContractFactory('SvgFacet', {
-    // TODO: Check this one
-    // libraries: {
-    //   LibStrings,
-    //   LibSvg,
-    // },
+    libraries: {
+      LibSvg,
+    },
   });
   const contract = await factory.deploy();
   await contract.deployTransaction.wait();
@@ -235,12 +228,7 @@ export async function deployLibraries({}, hre: HardhatRuntimeEnvironment) {
   const LibMeta = await LibMetaFactory.deploy();
   await LibMeta.deployTransaction.wait();
 
-  const LibSnowballFactory = await hre.ethers.getContractFactory('LibSnowball', {
-    // TODO: Check this one
-    // libraries: {
-    //   LibERC721: LibERC721.address,
-    // },
-  });
+  const LibSnowballFactory = await hre.ethers.getContractFactory('LibSnowball');
   const LibSnowball = await LibSnowballFactory.deploy();
   await LibSnowball.deployTransaction.wait();
 
@@ -249,10 +237,9 @@ export async function deployLibraries({}, hre: HardhatRuntimeEnvironment) {
   await LibSvgStorage.deployTransaction.wait();
 
   const LibSvgFactory = await hre.ethers.getContractFactory('LibSvg', {
-    // TODO: Check this one
-    // libraries: {
-    //   LibSvgStorage: LibSvgStorage.address,
-    // },
+    libraries: {
+      LibStrings: LibStrings.address,
+    },
   });
   const LibSvg = await LibSvgFactory.deploy();
   await LibSvg.deployTransaction.wait();
