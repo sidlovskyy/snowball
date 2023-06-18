@@ -258,8 +258,11 @@ export async function deployLibraries({}, hre: HardhatRuntimeEnvironment) {
 async function deployTestSvg(diamond: string, deployerAddress: string, hre: HardhatRuntimeEnvironment) {
   const tokenId = 1;
   const snowball = await hre.ethers.getContractAt('Snowball', diamond);
-  await snowball.mint(deployerAddress, tokenId);
-  await snowball.storeSvg(tokenId, {
+
+  const mint =  await snowball.mint(deployerAddress, tokenId);
+  await mint.wait();
+
+  const store = await snowball.storeSvg(tokenId, {
     width: 32,
     height: 32,
     data: ethers.utils.hexlify(ethers.utils.toUtf8Bytes(
@@ -273,6 +276,7 @@ async function deployTestSvg(diamond: string, deployerAddress: string, hre: Hard
       '<path d="M25.78 23.38C25.664 23.2321 25.5086 23.1198 25.3318 23.0562C25.1549 22.9925 24.9637 22.98 24.78 23.02L16 25L7.21999 23C7.03632 22.96 6.84507 22.9725 6.6682 23.0362C6.49133 23.0998 6.33598 23.2121 6.21999 23.36L2.21999 28.36C2.10392 28.5064 2.03116 28.6823 2.00995 28.8679C1.98874 29.0534 2.01993 29.2413 2.09999 29.41C2.17815 29.5839 2.3044 29.7319 2.46385 29.8364C2.62331 29.9409 2.80933 29.9977 2.99999 30H29C29.1885 29.9995 29.373 29.9457 29.5322 29.8448C29.6914 29.744 29.8189 29.6002 29.9 29.43C29.98 29.2613 30.0112 29.0734 29.99 28.8879C29.9688 28.7023 29.8961 28.5264 29.78 28.38L25.78 23.38ZM5.07999 28L7.38999 25.11L15.78 27C15.9251 27.0299 16.0748 27.0299 16.22 27L24.61 25.13L26.92 28H5.07999Z" fill="#263238"/>',
     )),
   });
+  await store.wait();
 
   const svg = await snowball.getSvg(tokenId);
   console.log('Stored SVG:', svg);

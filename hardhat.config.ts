@@ -10,6 +10,10 @@ import * as diamondUtils from './utils/diamond';
 
 import './scripts/deploy';
 
+require('dotenv').config();
+
+const { DEPLOYER_PRIVATE_KEY } = process.env;
+
 const config: HardhatUserConfig = {
   defaultNetwork: 'hardhat',
   solidity: {
@@ -34,7 +38,13 @@ const config: HardhatUserConfig = {
         mnemonic: 'change typical hire slam amateur loan grid fix drama electric seed label',
       },
       chainId: 31337,
-    }
+    },
+    polygon: {
+      url: process.env.POLYGON_RPC_URL ?? 'https://polygon-rpc.com',
+      accounts: [DEPLOYER_PRIVATE_KEY!],
+      gasMultiplier: 1.5,
+      chainId: 137,
+    },
   },
   diamondAbi: {
     // This plugin will combine all ABIs from any Smart Contract with `Facet` in the name or path and output it as `Snowball.json`
